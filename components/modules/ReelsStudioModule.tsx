@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { AIMediaGeneratorModule } from './AIMediaGeneratorModule';
 import { 
   Film, 
   Sparkles, 
@@ -380,6 +381,7 @@ export const ReelsStudioModule: React.FC<ReelsStudioModuleProps> = ({
 
   return (
     <div className="space-y-6 animate-fade-in max-w-6xl mx-auto">
+      <AIMediaGeneratorModule />
       
       {/* Studio Header Banner */}
       <div className="relative rounded-2xl p-5 sm:p-7 bg-gradient-to-r from-[#2A1624] via-[#1B1525] to-[#12111A] border border-[#E5AA9C]/35 shadow-xl overflow-hidden">
