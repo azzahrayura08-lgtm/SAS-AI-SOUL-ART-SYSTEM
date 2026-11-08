@@ -28,7 +28,7 @@ export const AIMediaGeneratorModule: React.FC = () => {
   const [videoUrl, setVideoUrl] = useState('');
 
   useEffect(() => {
-    try { setGatewayUrl(localStorage.getItem(STORAGE_KEY) || import.meta.env.VITE_SAS_MEDIA_API_URL || ''); } catch {}
+    try { setGatewayUrl(localStorage.getItem(STORAGE_KEY) || ''); } catch {}
   }, []);
 
   useEffect(() => () => {
