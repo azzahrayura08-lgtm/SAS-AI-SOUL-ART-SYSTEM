@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "android:sync": "cap sync android"
+    "android:sync": "cap sync android",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@capacitor/android": "6.2.0",
