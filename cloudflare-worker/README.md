@@ -1,27 +1,28 @@
 # SAS AI Media Gateway
 
-This Worker keeps the Gemini API key on the server. Never put the key in the React app, GitHub source, APK, or chat.
+Server-side gateway for real Gemini image and short-video generation. The Gemini API key stays in a Cloudflare Worker secret; never place it in React code, GitHub files, APK settings, or chat.
 
 ## Models
-- Image: `gemini-3.1-flash-image`
-- Video: `gemini-omni-1.1-flash`
+- Image generation: `gemini-3.1-flash-image` (stable).
+- Video generation: `gemini-omni-1.1-flash` (stable model ID).
 
 ## Endpoints
-- `GET /health` — service health check.
-- `POST /api/generate` — JSON body: `{ "type": "image" | "video", "prompt": "...", "aspectRatio": "9:16", "duration": 8 }`.
-- `GET /api/interactions/{id}` — retrieve an asynchronous interaction.
+- `GET /health` — service status and whether the key is configured.
+- `POST /api/generate` — JSON body: `{ "type": "image" | "video", "prompt": "...", "aspectRatio": "9:16" }`.
+- `GET /api/files/{id}/download` — securely proxies the generated MP4 download.
 
-The Worker forwards the Gemini Interactions API response without exposing the secret.
-
-## Deployment (parent/guardian should manage API access and any billing)
-1. Install the Cloudflare Wrangler CLI on a computer and sign in to the Cloudflare account.
-2. From this directory, set the secret interactively: `npx wrangler secret put GEMINI_API_KEY`. Paste the key only into the secure terminal prompt, never into GitHub source or ChatGPT.
-3. Set `APP_ORIGIN` in `wrangler.toml` to the exact HTTPS origin where the SAS web app is hosted. Do not leave wildcard CORS for a public production deployment.
-4. Deploy with `npx wrangler deploy`.
-5. Open the deployed `/health` endpoint. It should return `{"ok":true,"service":"SAS AI Media Gateway"}`.
+## Deploy (parent/guardian should manage the API account and any billing)
+1. Install Node.js on a computer, then open a terminal in this folder.
+2. Run `npx wrangler login`.
+3. Create/manage the Gemini API key with a parent/guardian. Review the model's current pricing, quota, and terms first; usage may incur charges.
+4. Run `npx wrangler secret put GEMINI_API_KEY` and paste the key only into the secure terminal prompt. Never paste it into GitHub source, the APK, or ChatGPT.
+5. Run `npx wrangler deploy`.
+6. Copy the deployed Worker URL, such as `https://sas-ai-media-gateway.<account>.workers.dev`.
+7. In SAS AI, open **Reels Studio → SAS Real AI Media Generator**, paste only the Worker URL into **Alamat Server AI**, then generate a test image.
 
 ## Important
-- The APK cannot generate media through this gateway until its API base URL is configured in the app and the Worker is deployed.
-- Video generation is asynchronous and can take time; the client must poll the returned interaction ID until it is complete, then present the generated video output.
-- API use may incur charges and is subject to Google's model availability, quotas, and terms. A parent/guardian should review and manage the account.
-- This folder is a secure server scaffold; it does not mean the Android APK has already been rebuilt or tested against a live API.
+- The app's new generator appears in Reels Studio. It does not use the old Pollinations URL or canvas fallback for the new AI generator.
+- The APK cannot generate media until the Worker is deployed and its URL is entered in the app.
+- Video generation returns a short clip; model duration, output, quotas, safety filters, and availability are controlled by Google.
+- CORS is permissive by default for initial setup. Before public production use, set `APP_ORIGIN` in `wrangler.toml` to the exact web origin where the app is hosted, and configure Cloudflare rate limiting/abuse protection.
+- This scaffold does not mean that a live API has been configured or that the generated outputs have been tested with a real key.
