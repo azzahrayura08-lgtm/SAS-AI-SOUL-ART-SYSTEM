@@ -1,0 +1,7 @@
+name = "sas-ai-media-gateway"
+main = "src/index.ts"
+compatibility_date = "2026-11-08"
+
+[vars]
+# Set APP_ORIGIN to the deployed SAS app URL before deployment.
+APP_ORIGIN = "*"
