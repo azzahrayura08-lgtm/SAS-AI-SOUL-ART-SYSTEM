@@ -120,7 +120,7 @@ export const AIMediaGeneratorModule: React.FC = () => {
         <button type="button" onClick={() => { setKind('image'); setError(''); }} className={`rounded-xl border p-3 text-sm flex items-center justify-center gap-2 ${kind === 'image' ? 'border-[#E5AA9C] bg-[#9A5A65]/25 text-white' : 'border-white/10 text-[#DCD4CA]/70'}`}>
           <ImageIcon className="h-4 w-4" /> Buat Gambar AI
         </button>
-        <button type="button" onClick={() => { setKind('video'); setError(''); }} className={`rounded-xl border p-3 text-sm flex items-center justify-center gap-2 ${kind === 'video' ? 'border-[#E5AA9C] bg-[#9A5A65]/25 text-white' : 'border-white/10 text-[#DCD4CA]/70'}`}>
+        <button type="button" onClick={() => { setKind('video'); if (aspectRatio !== '9:16' && aspectRatio !== '16:9') setAspectRatio('16:9'); setError(''); }} className={`rounded-xl border p-3 text-sm flex items-center justify-center gap-2 ${kind === 'video' ? 'border-[#E5AA9C] bg-[#9A5A65]/25 text-white' : 'border-white/10 text-[#DCD4CA]/70'}`}>
           <Video className="h-4 w-4" /> Buat Video AI
         </button>
       </div>
@@ -139,7 +139,7 @@ export const AIMediaGeneratorModule: React.FC = () => {
       <div className="space-y-2">
         <label className="block text-xs font-semibold text-[#FAF7F2]">Rasio gambar/video</label>
         <div className="grid grid-cols-4 gap-2">
-          {(['1:1', '4:5', '9:16', '16:9'] as Aspect[]).map(ratio => (
+          {(kind === 'image' ? ['1:1', '4:5', '9:16', '16:9'] : ['9:16', '16:9']).map((ratio) => (
             <button key={ratio} type="button" onClick={() => setAspectRatio(ratio)} className={`rounded-lg border py-2 text-xs ${aspectRatio === ratio ? 'border-[#E5AA9C] bg-[#9A5A65]/25 text-white' : 'border-white/10 text-[#DCD4CA]/70'}`}>{ratio}</button>
           ))}
         </div>
