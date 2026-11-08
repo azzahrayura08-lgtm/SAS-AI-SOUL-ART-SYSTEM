@@ -53,6 +53,13 @@ jobs:
         run: npx cap add android
       - name: Sync app into Android project
         run: npx cap sync android
+      - name: Configure Gradle download reliability
+        run: |
+          PROPS="android/gradle/wrapper/gradle-wrapper.properties"
+          sed -i 's/gradle-8.2.1-all.zip/gradle-8.2.1-bin.zip/' "$PROPS"
+          printf '\nnetworkTimeout=120000\nretries=3\nretryBackOffMs=2000\n' >> "$PROPS"
+      - name: Cache Gradle
+        uses: gradle/actions/setup-gradle@v4
       - name: Build debug APK
         run: |
           cd android
