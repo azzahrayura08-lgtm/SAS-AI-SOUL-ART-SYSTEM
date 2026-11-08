@@ -139,7 +139,7 @@ export const AIMediaGeneratorModule: React.FC = () => {
       <div className="space-y-2">
         <label className="block text-xs font-semibold text-[#FAF7F2]">Rasio gambar/video</label>
         <div className="grid grid-cols-4 gap-2">
-          {(kind === 'image' ? ['1:1', '4:5', '9:16', '16:9'] : ['9:16', '16:9']).map((ratio) => (
+          {(kind === 'image' ? (['1:1', '4:5', '9:16', '16:9'] as Aspect[]) : (['9:16', '16:9'] as Aspect[])).map((ratio) => (
             <button key={ratio} type="button" onClick={() => setAspectRatio(ratio)} className={`rounded-lg border py-2 text-xs ${aspectRatio === ratio ? 'border-[#E5AA9C] bg-[#9A5A65]/25 text-white' : 'border-white/10 text-[#DCD4CA]/70'}`}>{ratio}</button>
           ))}
         </div>
